@@ -4,7 +4,7 @@ import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base'
 import { PhantomWalletAdapter } from '@solana/wallet-adapter-wallets'
 import { clusterApiUrl } from '@solana/web3.js'
-import { Stat, StatLabel, StatNumber, StatHelpText, StatArrow } from '@chakra-ui/react'
+//import { Stat, StatLabel, StatNumber, StatHelpText, StatArrow } from '@chakra-ui/react'
 
 interface Props {
   children: ReactNode

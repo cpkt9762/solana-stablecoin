@@ -1,131 +1,196 @@
-import { ChakraProvider, Box, Container, Heading, Text, VStack, HStack, Button, useColorModeValue, Grid, GridItem, Stat, StatLabel, StatNumber, StatHelpText, StatArrow } from '@chakra-ui/react'
+import { useState } from 'react'
+import { 
+  ChakraProvider, 
+  Box, 
+  Container, 
+  Heading, 
+  Text, 
+  Flex, 
+  HStack, 
+  Button, 
+  Grid, 
+  GridItem, 
+  NumberInput,
+  useToast,
+  createMultiStyleConfigHelpers,
+  defineStyle
+} from '@chakra-ui/react'
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
-import '@solana/wallet-adapter-react-ui/styles.css'
+import { createTheme } from '@chakra-ui/theme-utils'
+
+const theme = createTheme({})
 
 function App() {
-  const bgColor = useColorModeValue('gray.50', 'gray.900')
-  const cardBg = useColorModeValue('white', 'gray.800')
+  const [mintAmount, setMintAmount] = useState('')
+  const [redeemAmount, setRedeemAmount] = useState('')
+  const [hashrate, setHashrate] = useState('')
+  const toast = useToast()
+
+  // 模拟数据
+  const mockData = {
+    price: 1.00,
+    totalSupply: 1000000,
+    hashratePool: 100000,
+    userBalance: 5000,
+    userHashrate: 5000
+  }
+
+  const handleMint = () => {
+    if (!mintAmount) {
+      toast({
+        title: '请输入数量',
+        status: 'error',
+        duration: 2000,
+      })
+      return
+    }
+    toast({
+      title: '铸造成功',
+      description: `成功铸造 ${mintAmount} USDH`,
+      status: 'success',
+      duration: 2000,
+    })
+    setMintAmount('')
+  }
+
+  const handleRedeem = () => {
+    if (!redeemAmount) {
+      toast({
+        title: '请输入数量',
+        status: 'error',
+        duration: 2000,
+      })
+      return
+    }
+    toast({
+      title: '赎回成功',
+      description: `成功赎回 ${redeemAmount} USDH`,
+      status: 'success',
+      duration: 2000,
+    })
+    setRedeemAmount('')
+  }
+
+  const handleStakeHashrate = () => {
+    if (!hashrate) {
+      toast({
+        title: '请输入算力',
+        status: 'error',
+        duration: 2000,
+      })
+      return
+    }
+    toast({
+      title: '质押成功',
+      description: `成功质押 ${hashrate} TH/s 算力`,
+      status: 'success',
+      duration: 2000,
+    })
+    setHashrate('')
+  }
 
   return (
-    <ChakraProvider>
-      <Box minH="100vh" bg={bgColor}>
+    <ChakraProvider theme={theme}>
+      <Box minH="100vh" bg="gray.50">
         <Container maxW="container.xl" py={8}>
-          <VStack spacing={8} align="stretch">
+          <Flex direction="column" gap={8}>
             {/* Header */}
-            <HStack justify="space-between" p={4} bg={cardBg} borderRadius="lg" shadow="md">
+            <HStack justify="space-between" p={4} bg="white" borderRadius="lg" shadow="md">
               <Heading size="lg">USDH Stablecoin</Heading>
               <WalletMultiButton />
             </HStack>
 
-            {/* 系统概览 */}
-            <Grid templateColumns="repeat(3, 1fr)" gap={6}>
+            {/* 用户数据 */}
+            <Grid templateColumns="repeat(2, 1fr)" gap={6}>
               <GridItem>
-                <Box p={6} bg={cardBg} borderRadius="lg" shadow="md">
-                  <Stat>
-                    <StatLabel>USDH 价格</StatLabel>
-                    <StatNumber>$1.00</StatNumber>
-                    <StatHelpText>
-                      <StatArrow type="increase" />
-                      0.1%
-                    </StatHelpText>
-                  </Stat>
+                <Box p={6} bg="white" borderRadius="lg" shadow="md">
+                  <Text fontSize="sm" color="gray.500">我的 USDH 余额</Text>
+                  <Text fontSize="2xl" fontWeight="bold">{mockData.userBalance} USDH</Text>
                 </Box>
               </GridItem>
               <GridItem>
-                <Box p={6} bg={cardBg} borderRadius="lg" shadow="md">
-                  <Stat>
-                    <StatLabel>总供应量</StatLabel>
-                    <StatNumber>1,000,000 USDH</StatNumber>
-                    <StatHelpText>
-                      <StatArrow type="increase" />
-                      5.2%
-                    </StatHelpText>
-                  </Stat>
-                </Box>
-              </GridItem>
-              <GridItem>
-                <Box p={6} bg={cardBg} borderRadius="lg" shadow="md">
-                  <Stat>
-                    <StatLabel>算力池总量</StatLabel>
-                    <StatNumber>100,000 TH/s</StatNumber>
-                    <StatHelpText>
-                      <StatArrow type="increase" />
-                      2.3%
-                    </StatHelpText>
-                  </Stat>
+                <Box p={6} bg="white" borderRadius="lg" shadow="md">
+                  <Text fontSize="sm" color="gray.500">我的算力</Text>
+                  <Text fontSize="2xl" fontWeight="bold">{mockData.userHashrate} TH/s</Text>
                 </Box>
               </GridItem>
             </Grid>
 
-            {/* 主要功能区域 */}
-            <Box p={8} bg={cardBg} borderRadius="lg" shadow="md">
-              <VStack spacing={6} align="stretch">
-                <Heading size="md">USDH 稳定币系统</Heading>
-                <Text>
-                  USDH是一个基于Solana区块链的去中心化稳定币系统，由算力支持，具有可编程性。
-                </Text>
-                
-                {/* 系统特点 */}
-                <Box>
-                  <Heading size="sm" mb={4}>系统特点</Heading>
-                  <Grid templateColumns="repeat(2, 1fr)" gap={4}>
-                    <Box p={4} borderWidth="1px" borderRadius="md">
-                      <Heading size="xs" mb={2}>去中心化</Heading>
-                      <Text fontSize="sm">基于区块链技术，无需中心化机构</Text>
-                    </Box>
-                    <Box p={4} borderWidth="1px" borderRadius="md">
-                      <Heading size="xs" mb={2}>算力支持</Heading>
-                      <Text fontSize="sm">由矿工算力作为价值支撑</Text>
-                    </Box>
-                    <Box p={4} borderWidth="1px" borderRadius="md">
-                      <Heading size="xs" mb={2}>可编程性</Heading>
-                      <Text fontSize="sm">支持智能合约，实现自动化操作</Text>
-                    </Box>
-                    <Box p={4} borderWidth="1px" borderRadius="md">
-                      <Heading size="xs" mb={2}>高流动性</Heading>
-                      <Text fontSize="sm">快速交易和结算</Text>
-                    </Box>
-                  </Grid>
-                </Box>
-
-                {/* 操作按钮 */}
-                <HStack spacing={4} justify="center">
-                  <Button colorScheme="blue" size="lg">铸造 USDH</Button>
-                  <Button colorScheme="green" size="lg">赎回 USDH</Button>
-                  <Button colorScheme="purple" size="lg">查看算力池</Button>
+            {/* 铸造 USDH */}
+            <Box p={8} bg="white" borderRadius="lg" shadow="md">
+              <Flex direction="column" gap={4}>
+                <Heading size="md">铸造 USDH</Heading>
+                <Text>质押算力来铸造 USDH</Text>
+                <HStack>
+                  <NumberInput min={0} value={mintAmount} onChange={setMintAmount}>
+                    <NumberInputField placeholder="输入要铸造的 USDH 数量" />
+                    <NumberInputStepper>
+                      <NumberIncrementStepper />
+                      <NumberDecrementStepper />
+                    </NumberInputStepper>
+                  </NumberInput>
+                  <Button colorScheme="blue" onClick={handleMint}>铸造</Button>
                 </HStack>
-              </VStack>
+              </Flex>
+            </Box>
+
+            {/* 赎回 USDH */}
+            <Box p={8} bg="white" borderRadius="lg" shadow="md">
+              <Flex direction="column" gap={4}>
+                <Heading size="md">赎回 USDH</Heading>
+                <Text>赎回 USDH 获取算力</Text>
+                <HStack>
+                  <NumberInput min={0} value={redeemAmount} onChange={setRedeemAmount}>
+                    <NumberInputField placeholder="输入要赎回的 USDH 数量" />
+                    <NumberInputStepper>
+                      <NumberIncrementStepper />
+                      <NumberDecrementStepper />
+                    </NumberInputStepper>
+                  </NumberInput>
+                  <Button colorScheme="green" onClick={handleRedeem}>赎回</Button>
+                </HStack>
+              </Flex>
+            </Box>
+
+            {/* 质押算力 */}
+            <Box p={8} bg="white" borderRadius="lg" shadow="md">
+              <Flex direction="column" gap={4}>
+                <Heading size="md">质押算力</Heading>
+                <Text>直接质押算力到系统</Text>
+                <HStack>
+                  <NumberInput min={0} value={hashrate} onChange={setHashrate}>
+                    <NumberInputField placeholder="输入要质押的算力 (TH/s)" />
+                    <NumberInputStepper>
+                      <NumberIncrementStepper />
+                      <NumberDecrementStepper />
+                    </NumberInputStepper>
+                  </NumberInput>
+                  <Button colorScheme="purple" onClick={handleStakeHashrate}>质押</Button>
+                </HStack>
+              </Flex>
             </Box>
 
             {/* 市场数据 */}
-            <Box p={8} bg={cardBg} borderRadius="lg" shadow="md">
-              <VStack spacing={4} align="stretch">
+            <Box p={8} bg="white" borderRadius="lg" shadow="md">
+              <Flex direction="column" gap={4}>
                 <Heading size="md">市场数据</Heading>
-                <Grid templateColumns="repeat(2, 1fr)" gap={6}>
+                <Grid templateColumns="repeat(3, 1fr)" gap={6}>
                   <Box>
-                    <Heading size="sm" mb={4}>24小时交易量</Heading>
-                    <Text fontSize="2xl" fontWeight="bold">$500,000</Text>
-                    <Text color="green.500">↑ 12.5%</Text>
+                    <Text fontSize="sm" color="gray.500">USDH 价格</Text>
+                    <Text fontSize="2xl" fontWeight="bold">${mockData.price}</Text>
                   </Box>
                   <Box>
-                    <Heading size="sm" mb={4}>活跃用户数</Heading>
-                    <Text fontSize="2xl" fontWeight="bold">1,234</Text>
-                    <Text color="green.500">↑ 8.3%</Text>
+                    <Text fontSize="sm" color="gray.500">总供应量</Text>
+                    <Text fontSize="2xl" fontWeight="bold">{mockData.totalSupply.toLocaleString()} USDH</Text>
                   </Box>
                   <Box>
-                    <Heading size="sm" mb={4}>平均交易时间</Heading>
-                    <Text fontSize="2xl" fontWeight="bold">2.5s</Text>
-                    <Text color="green.500">↓ 0.5s</Text>
-                  </Box>
-                  <Box>
-                    <Heading size="sm" mb={4}>系统稳定性</Heading>
-                    <Text fontSize="2xl" fontWeight="bold">99.9%</Text>
-                    <Text color="green.500">↑ 0.1%</Text>
+                    <Text fontSize="sm" color="gray.500">算力池总量</Text>
+                    <Text fontSize="2xl" fontWeight="bold">{mockData.hashratePool.toLocaleString()} TH/s</Text>
                   </Box>
                 </Grid>
-              </VStack>
+              </Flex>
             </Box>
-          </VStack>
+          </Flex>
         </Container>
       </Box>
     </ChakraProvider>
