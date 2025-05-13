@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 添加Blanka字体 */
+@font-face {
+  font-family: 'Blanka';
+  src: url('/blanka-free-for-commercial-use/Blanka.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --primary-color: #0088FF;
+  --accent-color: #00E5FF;
+  --highlight-color: #FF00DD;
+  --bg-dark: #000000;
+  --text-light: #FFFFFF;
+}
+
+body {
+  background: var(--bg-dark);
+  color: var(--text-light);
+  overflow-x: hidden;
+  font-family: system-ui, sans-serif;
+}
+
+/* 在加载锁链动画前避免闪烁 */
+.bg-loading {
+  background: #000000;
+}
+
+/* 简洁按钮样式 */
+.btn-minimal {
+  background-color: transparent;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.5rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  transition: all 0.3s ease;
+}
+
+.btn-minimal:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* 品牌字体样式 */
+.font-blanka {
+  font-family: 'Blanka', sans-serif;
+  letter-spacing: 0.1em;
+}
+
+/* 标题与文本间距 */
+.text-spacing {
+  letter-spacing: 0.05em;
+  line-height: 1.8;
+}
+
+/* 渐变字体 */
+.text-gradient {
+  background: linear-gradient(to right, #FFFFFF, #A0A0A0);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* 内容垂直居中布局 */
+.content-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 100%;
+  padding: 0 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 10;
+}
