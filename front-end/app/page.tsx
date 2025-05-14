@@ -8,7 +8,7 @@ export default function ConceptPage() {
   const [fadeIn, setFadeIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  // 页面载入后淡入效果
+  // Fade-in effect after page load
   useEffect(() => {
     const timer = setTimeout(() => {
       setFadeIn(true);
@@ -17,22 +17,22 @@ export default function ConceptPage() {
     return () => clearTimeout(timer);
   }, []);
 
-  // 处理iframe加载完成
+  // Handle iframe load completion
   const handleIframeLoad = () => {
     setIsLoading(false);
   };
 
-  // 处理按钮点击
+  // Handle button click
   const handleEnterClick = () => {
     setIsAnimating(true);
     setTimeout(() => {
-      router.push("/dashboard");
+      router.push("/main");
     }, 800);
   };
 
   return (
-    <div className="fixed inset-0 w-full h-full bg-black overflow-hidden">
-      {/* 锁链动画背景 */}
+    <div className="fixed inset-0 w-full h-full bg-black overflow-hidden flex items-center justify-center">
+      {/* Unchained Animation Background */}
       {isLoading && (
         <div className="absolute inset-0 bg-black flex items-center justify-center">
           <div className="w-8 h-8 border-2 border-white/30 border-t-white/80 rounded-full animate-spin"></div>
@@ -44,35 +44,39 @@ export default function ConceptPage() {
         frameBorder="0"
         className="absolute inset-0 w-full h-full"
         onLoad={handleIframeLoad}
-        title="锁链动画背景"
+        title="Unchained Animation Background"
+        style={{ width: '100vw', height: '100vh', position: 'absolute', left: 0, top: 0 }}
       />
 
-      {/* 内容区域 - 采用极简设计 */}
+      {/* Content Area - Minimalist Design */}
       <div
-        className={`content-center transition-opacity duration-1000 ${fadeIn ? 'opacity-100' : 'opacity-0'} ${isAnimating ? 'opacity-0 translate-y-4' : ''} transition-all duration-500`}
+        className={`absolute inset-0 flex flex-col items-center justify-center text-center z-10 px-4 transition-opacity duration-1000 ${fadeIn ? "opacity-100" : "opacity-0"
+          } ${isAnimating ? "opacity-0 translate-y-4" : ""
+          } transition-all duration-500`}
       >
-        {/* 主标题 */}
-        <h1 className="font-blanka text-gradient text-500lg sm:text-30xl mb-10 tracking-widest">
+        {/* Main Title */}
+        <h1 className="font-blanka text-gradient text-5xl sm:text-7xl md:text-8xl mb-10 tracking-widest">
           USDH
         </h1>
 
-        {/* 副标题 */}
-        <h2 className="text-base sm:text-lg mb-4 font-light">
-          去中心化算力支持的可编程稳定币系统
+        {/* Subtitle */}
+        <h2 className="text-base sm:text-lg mb-4 font-light max-w-3xl">
+          DECENTRALIZED COMPUTE-BACKED STABLECOIN SYSTEM
         </h2>
 
-        {/* 简短描述 */}
-        <p className="text-xs sm:text-sm text-gray-300 mb-12 max-w-lg text-spacing">
-          连接分布式算力资源与稳定币技术，创建多层资产支持的金融生态系统
+        {/* Short Description */}
+        <p className="text-xs sm:text-sm text-gray-300 mb-12 max-w-xl text-spacing">
+          CONNECTING DISTRIBUTED COMPUTE RESOURCES WITH STABLECOIN TECHNOLOGY
+          TO CREATE A MULTI-ASSET BACKED FINANCIAL ECOSYSTEM
         </p>
 
-        {/* 简约按钮 */}
+        {/* Minimal Button */}
         <button
           onClick={handleEnterClick}
           className="btn-minimal"
           disabled={isAnimating}
         >
-          进入系统 →
+          ENTER SYSTEM →
         </button>
       </div>
     </div>

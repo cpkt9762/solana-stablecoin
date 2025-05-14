@@ -1,15 +1,12 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Space_Grotesk } from "next/font/google";
+import { Inter } from "next/font/google";
 
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
-  weight: ['300', '400', '500', '600', '700']
-});
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "USDH - 去中心化算力支持的可编程稳定币系统",
-  description: "连接分布式算力资源与稳定币技术的创新金融系统",
+  title: "USDH - Decentralized Compute-Backed Stablecoin System",
+  description: "Connecting distributed compute resources with stablecoin technology to create a multi-asset backed financial ecosystem",
 };
 
 export default function RootLayout({
@@ -18,8 +15,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="zh-CN">
-      <body className={`${spaceGrotesk.className} min-h-screen`}>
+    <html lang="en">
+      <body className={`${inter.className} min-h-screen`}>
         {children}
       </body>
     </html>
